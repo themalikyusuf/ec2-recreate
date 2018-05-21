@@ -1,0 +1,20 @@
+# - name: Create AMI From Existing Instance
+#   ec2_ami:
+#     instance_id: i-03dbcf37fbd7da510
+#     wait: yes
+#     name: "{{  }}"
+#     aws_access_key: "{{ lookup('env','AWS_ACCESS_KEY') }}"
+#     aws_secret_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
+#     region: "{{  }}"
+
+# - name: Pause playbook to allow newly created ami to propagate
+#   pause: minutes=1
+
+- name: Get created AMI's ID
+  ec2_ami_find:
+    name: "{{  }}"
+    region: us-west-2
+    sort: name
+    sort_order: descending
+    sort_end: 1
+  register: ami_id

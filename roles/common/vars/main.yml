@@ -1,0 +1,5 @@
+---
+region: REGION
+subnet_id: SUBNET ID
+key_name: EC2 KEY NAME
+ami_id: EC2 AMI ID

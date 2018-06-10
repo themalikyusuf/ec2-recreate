@@ -1,2 +1,3 @@
 *retry
 .DStore
+roles/common/vars/ignore.yml

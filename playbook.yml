@@ -1,5 +1,17 @@
 ---
-- hosts: localhost
-  connection: local
-  roles:
-    - common
+- hosts: graylogserver
+  remote_user: ubuntu
+  gather_facts: no
+  tasks:        
+    - name: Install prerequisites 
+      apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: yes
+      become: yes
+      vars:
+        packages:
+          - apt-transport-https
+          - openjdk-8-jre-headless
+          - uuid-runtime
+          - pwgen

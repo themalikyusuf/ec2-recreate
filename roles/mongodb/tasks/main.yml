@@ -35,3 +35,9 @@
   notify:
     - restart mongodb
     - apt-get update
+
+- name: Enable MongoDB during system start up
+  systemd:
+    name: mongod
+    enabled: yes
+    state: restarted

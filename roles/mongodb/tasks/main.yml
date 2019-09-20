@@ -32,9 +32,6 @@
   apt:
     name: mongodb-org
     state: present
-  notify:
-    - restart mongodb
-    - apt-get update
 
 - name: Enable MongoDB during system start up
   systemd:

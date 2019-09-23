@@ -1,0 +1,10 @@
+---
+
+- name: Install a Graylog debian package
+  apt:
+    deb: https://packages.graylog2.org/repo/packages/graylog-3.1-repository_latest.deb
+
+- name: Install Graylog
+  apt:
+    name: graylog-server
+    update_cache: yes

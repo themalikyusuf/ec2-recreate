@@ -7,3 +7,4 @@
   roles:
     - mongodb
     - elasticsearch
+    - graylog

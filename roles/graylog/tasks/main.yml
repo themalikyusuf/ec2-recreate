@@ -8,3 +8,32 @@
   apt:
     name: graylog-server
     update_cache: yes
+
+- name: Add password secret to Graylog config file
+  lineinfile:
+    path: /etc/graylog/server/server.conf
+    regexp: 'password_secret ='
+    line: 'password_secret = pwgenpwgenpwgen'
+
+- name: Add root password to Graylog config file
+  lineinfile:
+    path: /etc/graylog/server/server.conf
+    regexp: 'root_password_sha2 ='
+    line: 'root_password_sha2 = pwgenpwgenpwgenforroot'
+
+# - name: Add server ip to Graylog config file
+#   lineinfile:
+#     path: /etc/graylog/server/server.conf
+#     regexp: '#http_bind_address =.*'
+#     line: 'http_bind_address = 54.164.144.159:9000'
+
+# sed -i -e "s/password_secret =.*/password_secret = $(pwgen -s 128 1)/" /etc/graylog/server/server.conf
+#  sed -i -e "s/root_password_sha2 =.*/root_password_sha2 = $(echo -n 'password' | shasum -a 256 | cut -d' ' -f1)/" /etc/graylog/server/server.conf
+# sed -i -e "s|rest_listen_uri = http://127.0.0.1:9000/api/|rest_listen_uri = http://$(ip route get 8.8.8.8 | awk '{print $NF; exit}'):9000/api/|g" /etc/graylog/server/server.conf
+# sed -i -e "s|#web_listen_uri = http://127.0.0.1:9000/|web_listen_uri = http://$(ip route get 8.8.8.8 | awk '{print $NF; exit}'):9000/|g" /etc/graylog/server/server.conf         
+
+- name: Enable Graylog during system start up
+  systemd:
+    name: graylog-server
+    enabled: yes
+    state: restarted

@@ -1,6 +1,6 @@
 ---
 
-- name: Install a Graylog debian package
+- name: Install Graylog debian package
   apt:
     deb: https://packages.graylog2.org/repo/packages/graylog-3.1-repository_latest.deb
 
@@ -21,14 +21,16 @@
     regexp: 'root_password_sha2 ='
     line: 'root_password_sha2 = {{ root_password_sha2 }}'
 
-# - name: Add server ip to Graylog config file
-#   lineinfile:
-#     path: /etc/graylog/server/server.conf
-#     regexp: '#http_bind_address =.*'
-#     line: 'http_bind_address = {{ ip }}:9000'
+- name: Add server http bind address to Graylog config file
+  lineinfile:
+    path: /etc/graylog/server/server.conf
+    regexp: '#http_bind_address = 127.0.0.1:9000'
+    line: 'http_bind_address = {{ ansible_host }}:9000'
+    backrefs: yes
 
 - name: Enable Graylog during system start up
   systemd:
     name: graylog-server
     enabled: yes
-    state: restarted
+    state: started
+# systemctl/systemd(re/started) | web

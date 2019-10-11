@@ -32,7 +32,7 @@
     name: mongodb-org
     state: present
 
-- name: Enable MongoDB during system start up
+- name: Enable MongoDB during system start up and restart
   systemd:
     name: mongod
     enabled: yes

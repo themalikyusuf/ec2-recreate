@@ -28,9 +28,8 @@
     line: 'http_bind_address = {{ ansible_host }}:9000'
     backrefs: yes
 
-- name: Enable Graylog during system start up
+- name: Enable Graylog during system start up and restart
   systemd:
     name: graylog-server
     enabled: yes
-    state: started
-# systemctl/systemd(re/started) | web
+    state: restarted

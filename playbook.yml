@@ -6,3 +6,5 @@
   gather_facts: no
   roles:
     - mongodb
+    - elasticsearch
+    - graylog

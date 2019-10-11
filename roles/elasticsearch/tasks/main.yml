@@ -1,0 +1,31 @@
+---
+
+- name: Add Elasticsearch apt-key
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+
+- name: Add apt-repository
+  apt_repository:
+    repo: deb https://artifacts.elastic.co/packages/oss-6.x/apt stable main
+    state: present
+    update_cache: yes
+
+- name: Install Elasticsearch
+  apt:
+    name: elasticsearch-oss
+    state: present
+
+- name: Update Elasticsearch config file
+  blockinfile:
+    path: /etc/elasticsearch/elasticsearch.yml
+    block: |
+      cluster.name: graylog
+      action.auto_create_index: false
+
+- name: Enable Elasticsearch during system start up and restart
+  systemd:
+    name: elasticsearch
+    enabled: yes
+    state: restarted
+    

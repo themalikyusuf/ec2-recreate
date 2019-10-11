@@ -1,0 +1,35 @@
+---
+
+- name: Install Graylog debian package
+  apt:
+    deb: https://packages.graylog2.org/repo/packages/graylog-3.1-repository_latest.deb
+
+- name: Install Graylog
+  apt:
+    name: graylog-server
+    update_cache: yes
+
+- name: Add password secret to Graylog config file
+  lineinfile:
+    path: /etc/graylog/server/server.conf
+    regexp: 'password_secret ='
+    line: 'password_secret = {{ password_secret }}'
+
+- name: Add root password to Graylog config file
+  lineinfile:
+    path: /etc/graylog/server/server.conf
+    regexp: 'root_password_sha2 ='
+    line: 'root_password_sha2 = {{ root_password_sha2 }}'
+
+- name: Add server http bind address to Graylog config file
+  lineinfile:
+    path: /etc/graylog/server/server.conf
+    regexp: '#http_bind_address = 127.0.0.1:9000'
+    line: 'http_bind_address = {{ ansible_host }}:9000'
+    backrefs: yes
+
+- name: Enable Graylog during system start up and restart
+  systemd:
+    name: graylog-server
+    enabled: yes
+    state: restarted
